@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis 16</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.4.2/photoswipe.min.css">
+
+    <style>
+        body { 
+            touch-action: manipulation; 
+            overflow-x: hidden; 
+            background-color: #FDF0D5; 
+            font-family: 'Outfit', sans-serif; 
+        }
+
+        .no-scroll { 
+            overflow: hidden; 
+        }
+
+        .font-stitch { 
+            font-family: 'Luckiest Guy', cursive; 
+        }
+
+        .glass-invitation { 
+            background: rgba(255, 255, 255, 0.95); 
+            backdrop-filter: blur(12px); 
+            position: relative;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.9s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .sticky-wrapper { 
+            position: fixed; 
+            top: 30px; 
+            width: 100%; 
+            max-width: 384px; 
+            pointer-events: none; 
+            z-index: 1000; 
+        }
+
+        .vinyl-container { 
+            position: absolute; 
+            right: 15px; 
+            pointer-events: auto; 
+        }
+
+        .vinyl-disc { 
+            width: 55px; 
+            height: 55px; 
+            border-radius: 50%; 
+            background: #111; 
+            border: 2px solid #fff; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.25); 
+            background-image: radial-gradient(circle, #333 10%, transparent 11%), radial-gradient(circle, #111 20%, #333 21%, #111 25%, #333 26%, #111 30%); 
+        }
+
+        .vinyl-center { 
+            width: 18px; 
+            height: 18px; 
+            background: #FF708D; 
+            border-radius: 50%; 
+            border: 1.5px solid #fff; 
+        }
+
+        .paused { 
+            animation-play-state: paused !important; 
+        }
+
+        #splashContainer { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100vw; 
+            height: 100vh; 
+            pointer-events: none; 
+            z-index: 9999; 
+            display: none; 
+        }
+        
+        .water-splash-image {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 220px; 
+            opacity: 1;
+            filter: drop-shadow(0 8px 15px rgba(0,119,182,0.4));
+            animation: impactQuick 0.7s ease-out forwards;
+        }
+
+        .dripping-drop {
+            position: absolute;
+            background: linear-gradient(180deg, #90E0EF, #00B4D8);
+            border-radius: 20% 80% 50% 50%;
+            animation: dripFast 1.8s linear forwards;
+        }
+
+        @keyframes impactQuick {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            40% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0; }
+        }
+
+        @keyframes dripFast {
+            0% { transform: translateY(0) scaleY(1); opacity: 1; }
+            100% { transform: translateY(110vh) scaleY(1.3); opacity: 0; }
+        }
+
+        /* LLUVIA DE FLORES MUY LENTA */
+        .flower-rain { 
+            position: absolute; 
+            top: -100px; 
+            pointer-events: none; 
+            z-index: 10; 
+            opacity: 0.3; 
+            animation: flowerFall var(--speed) linear forwards; 
+        }
+
+        @keyframes flowerFall {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(4500px) rotate(720deg); } 
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col items-center p-4 select-none no-scroll">
+
+    <div id="splashContainer"></div>
+
+    <div id="musicControl" class="sticky-wrapper hidden">
+        <div class="vinyl-container">
+            <div id="vinylDisc" class="vinyl-disc animate-spin-slow paused cursor-pointer">
+                <div class="vinyl-center"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="envelopeContainer" class="w-full max-w-sm text-center z-50 my-auto flex flex-col items-center">
+        <h2 class="text-[#0077B6] font-extrabold tracking-[0.2em] text-2xl mb-12 uppercase animate-pulse drop-shadow-sm">
+            ¡Aloha! <br> 
+            <span class="text-sm tracking-[0.4em] opacity-80">Tienes una invitación</span>
+        </h2>
+        
+        <div id="sealBtn" class="relative cursor-pointer w-64 h-40 bg-[#0077B6] rounded-2xl flex items-center justify-center shadow-2xl transition-all active:scale-95">
+            <div class="absolute top-0 w-full h-full border-t-[85px] border-t-white/10 border-x-[128px] border-x-transparent rounded-t-2xl"></div>
+            <div class="z-10 w-20 h-20 bg-white rounded-full shadow-xl flex items-center justify-center border-4 border-[#FDF0D5]">
+                <span class="text-4xl animate-bounce">🌸</span>
+            </div>
+        </div>
+
+        <p class="mt-12 text-[#0077B6] text-sm tracking-[0.3em] uppercase font-black bg-white/40 px-6 py-2 rounded-full shadow-inner">
+            Toca para abrir el sobre
+        </p>
+    </div>
+
+    <div id="invitationCard" class="hidden relative w-full max-w-sm glass-invitation rounded-[3.5rem] shadow-2xl overflow-hidden p-6 flex flex-col items-center border-2 border-white/50 z-40 my-8">
+        
+        <div id="flowerContainer" class="absolute inset-0 pointer-events-none overflow-hidden rounded-[3.5rem]"></div>
+
+        <div class="w-full h-64 rounded-[2.5rem] mb-8 bg-cover bg-center border-4 border-white shadow-lg relative z-20 reveal" style="background-image: url('img/inicio.jpg');"></div>
+        
+        <p class="text-[#0077B6] font-bold text-[10px] tracking-[0.5em] uppercase mb-3 relative z-20 reveal">Te invito a festejar</p>
+        <h1 class="font-stitch text-4xl text-gray-800 mb-2 tracking-widest uppercase relative z-20 reveal">MIS 16 AÑOS</h1>
+        <h3 class="font-stitch text-7xl bg-gradient-to-b from-[#0077B6] via-[#FF708D] to-[#0077B6] bg-clip-text text-transparent mb-10 text-center relative z-20 reveal">Camila</h3>
+
+        <div class="w-full text-center space-y-6 mb-12 relative z-20">
+            <div class="inline-block px-8 py-3 bg-[#0077B6]/10 rounded-full reveal">
+                <p class="text-[#0077B6] font-bold text-xl uppercase">Domingo 17 de Mayo 2026</p>
+                <p class="text-[#FF708D] font-bold text-lg">14:00 Horas</p>
+            </div>
+
+            <div class="w-full h-52 rounded-3xl my-6 bg-cover bg-center border-4 border-white shadow-md reveal" style="background-image: url('img/salon.jpg');"></div>
+            
+            <p class="font-stitch text-3xl text-[#0077B6] uppercase reveal">Salon Palapa Gracy</p>
+            
+            <div class="bg-[#0077B6] text-white p-5 rounded-3xl shadow-lg mx-2 border-2 border-white/20 reveal">
+                <p class="text-[14px] font-bold tracking-[0.2em] uppercase mb-1">Ubicación del evento</p>
+                <p class="text-[13px] opacity-95 leading-relaxed font-medium">Niño de Atocha, Tuxtla Gutiérrez</p>
+            </div>
+            
+            <a href="https://maps.app.goo.gl/joFczFNW8xX7jmWR9" target="_blank" class="inline-block px-8 py-3 bg-[#0077B6] text-white font-bold rounded-full text-[10px] uppercase shadow-lg tracking-widest reveal">📍 Ver Ubicación</a>
+        </div>
+
+        <div class="w-full text-center mb-16 bg-[#FDF0D5]/50 p-6 rounded-[2.5rem] border border-white relative z-20 reveal">
+            <img src="img/alberca.jpg" class="w-40 mx-auto mb-4 rounded-2xl shadow-md">
+            <p class="text-[#0077B6] font-bold text-lg uppercase mb-2">¡Pool Party!</p>
+            <p class="text-[#FF708D] font-stitch text-3xl uppercase leading-tight">No olvides traer tu<br>traje de baño</p>
+        </div>
+
+        <div class="w-full mb-12 relative z-20 reveal">
+            <div class="grid grid-cols-2 gap-4 pswp-gallery" id="my-gallery">
+                <a href="img/img1.jpg" data-pswp-width="1200" data-pswp-height="1600" class="rounded-2xl overflow-hidden border-2 border-white shadow-sm transition-all active:scale-95">
+                    <img src="img/img1.jpg" class="w-full h-full object-cover aspect-square">
+                </a>
+                <a href="img/img2.jpg" data-pswp-width="1200" data-pswp-height="1600" class="rounded-2xl overflow-hidden border-2 border-white shadow-sm transition-all active:scale-95">
+                    <img src="img/img2.jpg" class="w-full h-full object-cover aspect-square">
+                </a>
+                <a href="img/img3.jpg" data-pswp-width="1200" data-pswp-height="1600" class="rounded-2xl overflow-hidden border-2 border-white shadow-sm transition-all active:scale-95">
+                    <img src="img/img3.jpg" class="w-full h-full object-cover aspect-square">
+                </a>
+                <a href="img/img4.jpg" data-pswp-width="1200" data-pswp-height="1600" class="rounded-2xl overflow-hidden border-2 border-white shadow-sm transition-all active:scale-95">
+                    <img src="img/img4.jpg" class="w-full h-full object-cover aspect-square">
+                </a>
+                <a href="img/img5.jpg" data-pswp-width="1200" data-pswp-height="1600" class="rounded-2xl overflow-hidden border-2 border-white shadow-sm col-span-2 mx-auto w-1/2 transition-all active:scale-95">
+                    <img src="img/img5.jpg" class="w-full h-full object-cover aspect-square">
+                </a>
+            </div>
+        </div>
+
+        <div class="w-full flex flex-col items-center space-y-4 mb-8 text-center relative z-20 reveal">
+            <p class="text-[#0077B6] font-bold tracking-widest uppercase text-[12px]">Confirma tu asistencia</p>
+            
+            <a href="https://wa.me/529612577561?text=%C2%A1Aloha!%20Confirmo%20mi%20asistencia" target="_blank" class="flex items-center justify-center w-72 py-5 bg-[#25D366] text-white rounded-[2rem] shadow-xl active:scale-95 transition-all">
+                <span class="font-bold tracking-[0.2em] uppercase text-[11px]">aquí confirma tu asistencia</span>
+            </a>
+
+            <p class="text-[18px] font-black italic bg-gradient-to-r from-[#FF708D] via-[#0077B6] to-[#00B4D8] bg-clip-text text-transparent mt-10 px-6 leading-tight uppercase tracking-tighter">
+                Te espero para compartir este momento especial
+            </p>
+
+            <div class="mt-12 pt-4">
+                <a href="https://wa.me/529612577561?text=Hola,%20me%20gustaria%20información%20sobre%20los%20paquetes%20de%20invitaciones%20digitales" 
+                   target="_blank" 
+                   class="text-[10px] text-[#0077B6] tracking-[0.1em] font-bold border-b border-[#0077B6]/10 pb-0.5 hover:text-[#FF708D] transition-colors uppercase">
+                   Computec | 961 257 7561
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <audio id="hawaianaAudio" loop><source src="musica/hawaina.mp3" type="audio/mpeg"></audio>
+
+    <script type="module">
+        import PhotoSwipeLightbox from 'https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.4.2/photoswipe-lightbox.esm.min.js';
+        const lightbox = new PhotoSwipeLightbox({ gallery: '#my-gallery', children: 'a', pswpModule: () => import('https://cdnjs.cloudflare.com/ajax/libs/photoswipe/5.4.2/photoswipe.esm.min.js') });
+        lightbox.init();
+    </script>
+
+    <script>
+        const sealBtn = document.getElementById('sealBtn'), env = document.getElementById('envelopeContainer'), card = document.getElementById('invitationCard'), splash = document.getElementById('splashContainer'), flowerBox = document.getElementById('flowerContainer'), audio = document.getElementById('hawaianaAudio'), vinyl = document.getElementById('vinylDisc'), musicUI = document.getElementById('musicControl');
+
+        function reveal() {
+            const reveals = document.querySelectorAll(".reveal");
+            reveals.forEach(el => {
+                const windowHeight = window.innerHeight;
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) { el.classList.add("active"); }
+            });
+        }
+        window.addEventListener("scroll", reveal);
+
+        function createDrippingSplash() {
+            splash.style.display = 'block'; splash.innerHTML = '';
+            const splashImg = document.createElement('div');
+            splashImg.className = 'water-splash-image';
+            splashImg.innerHTML = `<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path fill="#00B4D8" d="M464,256c0,24-48,32-64,64s32,80,0,112s-96,0-128,32s-64,48-112,0s-64-80-96-96s-64,0-64-64s48-32,64-96s-32-96,0-128s96,0,128-48s64-32,112,0s64,96,96,128S464,232,464,256z"/></svg>`;
+            splash.appendChild(splashImg);
+            for (let i = 0; i < 8; i++) {
+                setTimeout(() => {
+                    const drop = document.createElement('div');
+                    drop.className = 'dripping-drop';
+                    const w = Math.random() * 6 + 4;
+                    drop.style.width = w + 'px'; drop.style.height = (w * 1.6) + 'px';
+                    drop.style.left = (Math.random() * 90 + 5) + 'vw'; drop.style.top = (Math.random() * 20 + 10) + 'vh';
+                    splash.appendChild(drop);
+                    setTimeout(() => drop.remove(), 1800);
+                }, i * 160);
+            }
+            setTimeout(() => { splash.style.display = 'none'; }, 2500);
+        }
+
+        function launchFlowers() {
+            const icons = ['🌸', '🌺', '🌼'];
+            setInterval(() => {
+                const f = document.createElement('div');
+                f.className = 'flower-rain';
+                f.innerHTML = icons[Math.floor(Math.random()*icons.length)];
+                f.style.left = Math.random() * 100 + '%';
+                // CAÍDA EXTREMADAMENTE LENTA (18 a 24 segundos)
+                f.style.setProperty('--speed', (Math.random() * 6 + 18) + 's'); 
+                f.style.fontSize = (Math.random() * 12 + 16) + 'px';
+                flowerBox.appendChild(f);
+                setTimeout(() => f.remove(), 25000);
+            }, 1200);
+        }
+
+        sealBtn.addEventListener('click', () => {
+            createDrippingSplash();
+            env.classList.add('animate__animated', 'animate__fadeOutUp');
+            setTimeout(() => {
+                env.style.display = 'none';
+                card.classList.remove('hidden');
+                card.classList.add('animate__animated', 'animate__fadeInUp');
+                musicUI.classList.remove('hidden');
+                document.body.classList.remove('no-scroll');
+                audio.play().catch(e => {});
+                vinyl.classList.remove('paused');
+                launchFlowers();
+                reveal();
+            }, 500);
+        });
+
+        vinyl.addEventListener('click', () => {
+            if (audio.paused) { audio.play(); vinyl.classList.remove('paused'); } 
+            else { audio.pause(); vinyl.classList.add('paused'); }
+        });
+    </script>
+</body>
+</html>
