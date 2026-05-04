@@ -27,7 +27,6 @@
             position: relative;
         }
 
-        /* EFECTO SOLO PARA TEXTO: Suave y rápido */
         .reveal-text {
             opacity: 0;
             transform: translateY(15px);
@@ -102,10 +101,8 @@
         
         <div id="flowerContainer" class="absolute inset-0 pointer-events-none overflow-hidden rounded-[3.5rem]"></div>
 
-        <!-- FOTO PRINCIPAL: Carga inmediata sin efectos -->
         <div class="w-full h-64 rounded-[2.5rem] mb-8 bg-cover bg-center border-4 border-white shadow-lg relative z-20" style="background-image: url('img/inicio.jpg');"></div>
         
-        <!-- TEXTO: Con efecto reveal -->
         <p class="text-[#0077B6] font-bold text-[10px] tracking-[0.5em] uppercase mb-3 relative z-20 reveal-text">Te invito a festejar</p>
         <h1 class="font-stitch text-4xl text-gray-800 mb-2 tracking-widest uppercase relative z-20 reveal-text">MIS 16 AÑOS</h1>
         <h3 class="font-stitch text-7xl bg-gradient-to-b from-[#0077B6] via-[#FF708D] to-[#0077B6] bg-clip-text text-transparent mb-10 text-center relative z-20 reveal-text">Camila</h3>
@@ -116,7 +113,6 @@
                 <p class="text-[#FF708D] font-bold text-lg">14:00 Horas</p>
             </div>
 
-            <!-- FOTO SALÓN: Carga inmediata -->
             <div class="w-full h-52 rounded-3xl my-6 bg-cover bg-center border-4 border-white shadow-md" style="background-image: url('img/salon.jpg');"></div>
             
             <p class="font-stitch text-3xl text-[#0077B6] uppercase reveal-text">Salon Palapa Gracy</p>
@@ -135,7 +131,6 @@
             <p class="text-[#FF708D] font-stitch text-3xl uppercase leading-tight">No olvides traer tu<br>traje de baño</p>
         </div>
 
-        <!-- GALERÍA: Imágenes fijas (Carga rápida garantizada) -->
         <div class="w-full mb-12 relative z-20">
             <div class="grid grid-cols-2 gap-4 pswp-gallery" id="my-gallery">
                 <a href="img/img1.jpg" data-pswp-width="1200" data-pswp-height="1600" class="rounded-2xl overflow-hidden border-2 border-white">
@@ -156,7 +151,7 @@
             </div>
         </div>
 
-        <!-- CONFIRMACIÓN: Con efecto reveal -->
+        <!-- CONFIRMACIÓN Y CRÉDITOS -->
         <div class="w-full flex flex-col items-center space-y-4 mb-8 text-center relative z-20 reveal-text">
             <p class="text-[#0077B6] font-bold tracking-widest uppercase text-[12px]">Confirma tu asistencia</p>
             <a href="https://wa.me/529612473127?text=%C2%A1Aloha!%20Confirmo%20mi%20asistencia" target="_blank" class="flex items-center justify-center w-72 py-5 bg-[#25D366] text-white rounded-[2rem] shadow-xl active:scale-95 transition-all">
@@ -165,6 +160,12 @@
             <p class="text-[18px] font-black italic bg-gradient-to-r from-[#FF708D] via-[#0077B6] to-[#00B4D8] bg-clip-text text-transparent mt-10 px-6 leading-tight uppercase">
                 Te espero para compartir este momento especial
             </p>
+
+            <div class="mt-12 pt-4">
+                <a href="https://wa.me/529612577561?text=Hola,%20me%20gustaria%20información%20sobre%20invitaciones" target="_blank" class="text-[10px] text-[#0077B6] font-bold border-b border-[#0077B6]/10 uppercase tracking-widest">
+                   Computec | 961 257 7561
+                </a>
+            </div>
         </div>
     </div>
 
@@ -179,13 +180,11 @@
     <script>
         const sealBtn = document.getElementById('sealBtn'), env = document.getElementById('envelopeContainer'), card = document.getElementById('invitationCard'), flowerBox = document.getElementById('flowerContainer'), audio = document.getElementById('hawaianaAudio'), vinyl = document.getElementById('vinylDisc'), musicUI = document.getElementById('musicControl');
 
-        // FUNCIÓN SOLO PARA TEXTOS
         function revealText() {
             const reveals = document.querySelectorAll(".reveal-text");
             reveals.forEach(el => {
                 const windowHeight = window.innerHeight;
                 const elementTop = el.getBoundingClientRect().top;
-                // Aparece cuando el texto está a 40px de entrar en vista
                 if (elementTop < windowHeight - 40) { el.classList.add("active"); }
             });
         }
@@ -216,7 +215,7 @@
                 musicUI.classList.remove('hidden');
                 document.body.classList.remove('no-scroll');
                 launchFlowers();
-                revealText(); // Disparo inicial
+                revealText();
             }, 500);
         });
 
