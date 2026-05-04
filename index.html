@@ -27,14 +27,14 @@
             position: relative;
         }
 
-        /* Reveal optimizado: Solo para textos, NO para fotos, para que sea más rápido */
-        .reveal {
+        /* EFECTO SOLO PARA TEXTO: Suave y rápido */
+        .reveal-text {
             opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            transform: translateY(15px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
 
-        .reveal.active {
+        .reveal-text.active {
             opacity: 1;
             transform: translateY(0);
         }
@@ -51,28 +51,14 @@
         .vinyl-container { position: absolute; right: 15px; pointer-events: auto; }
 
         .vinyl-disc { 
-            width: 55px; 
-            height: 55px; 
-            border-radius: 50%; 
-            background: #111; 
-            border: 2px solid #fff; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
+            width: 55px; height: 55px; border-radius: 50%; background: #111; 
+            border: 2px solid #fff; display: flex; align-items: center; justify-content: center; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.25); 
             background-image: radial-gradient(circle, #333 10%, transparent 11%), radial-gradient(circle, #111 20%, #333 21%, #111 25%, #333 26%, #111 30%); 
         }
 
         .vinyl-center { width: 18px; height: 18px; background: #FF708D; border-radius: 50%; border: 1.5px solid #fff; }
         .paused { animation-play-state: paused !important; }
-
-        #splashContainer { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; display: none; }
-        
-        .water-splash-image {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0);
-            width: 220px; opacity: 1; filter: drop-shadow(0 8px 15px rgba(0,119,182,0.4));
-            animation: impactQuick 0.7s ease-out forwards;
-        }
 
         .flower-rain { 
             position: absolute; top: -100px; pointer-events: none; z-index: 10; opacity: 0.3; 
@@ -88,8 +74,6 @@
 
 <body class="min-h-screen flex flex-col items-center p-4 select-none no-scroll">
 
-    <div id="splashContainer"></div>
-
     <div id="musicControl" class="sticky-wrapper hidden">
         <div class="vinyl-container">
             <div id="vinylDisc" class="vinyl-disc animate-spin-slow paused cursor-pointer">
@@ -104,7 +88,6 @@
             ¡Aloha! <br> 
             <span class="text-sm tracking-[0.4em] opacity-80">Tienes una invitación</span>
         </h2>
-        
         <div id="sealBtn" class="relative cursor-pointer w-64 h-40 bg-[#0077B6] rounded-2xl flex items-center justify-center shadow-2xl transition-all active:scale-95">
             <div class="absolute top-0 w-full h-full border-t-[85px] border-t-white/10 border-x-[128px] border-x-transparent rounded-t-2xl"></div>
             <div class="z-10 w-20 h-20 bg-white rounded-full shadow-xl flex items-center justify-center border-4 border-[#FDF0D5]">
@@ -119,60 +102,62 @@
         
         <div id="flowerContainer" class="absolute inset-0 pointer-events-none overflow-hidden rounded-[3.5rem]"></div>
 
-        <!-- Foto de Inicio - Prioridad Alta -->
+        <!-- FOTO PRINCIPAL: Carga inmediata sin efectos -->
         <div class="w-full h-64 rounded-[2.5rem] mb-8 bg-cover bg-center border-4 border-white shadow-lg relative z-20" style="background-image: url('img/inicio.jpg');"></div>
         
-        <p class="text-[#0077B6] font-bold text-[10px] tracking-[0.5em] uppercase mb-3 relative z-20 reveal">Te invito a festejar</p>
-        <h1 class="font-stitch text-4xl text-gray-800 mb-2 tracking-widest uppercase relative z-20 reveal">MIS 16 AÑOS</h1>
-        <h3 class="font-stitch text-7xl bg-gradient-to-b from-[#0077B6] via-[#FF708D] to-[#0077B6] bg-clip-text text-transparent mb-10 text-center relative z-20 reveal">Camila</h3>
+        <!-- TEXTO: Con efecto reveal -->
+        <p class="text-[#0077B6] font-bold text-[10px] tracking-[0.5em] uppercase mb-3 relative z-20 reveal-text">Te invito a festejar</p>
+        <h1 class="font-stitch text-4xl text-gray-800 mb-2 tracking-widest uppercase relative z-20 reveal-text">MIS 16 AÑOS</h1>
+        <h3 class="font-stitch text-7xl bg-gradient-to-b from-[#0077B6] via-[#FF708D] to-[#0077B6] bg-clip-text text-transparent mb-10 text-center relative z-20 reveal-text">Camila</h3>
 
         <div class="w-full text-center space-y-6 mb-12 relative z-20">
-            <div class="inline-block px-8 py-3 bg-[#0077B6]/10 rounded-full reveal">
+            <div class="inline-block px-8 py-3 bg-[#0077B6]/10 rounded-full reveal-text">
                 <p class="text-[#0077B6] font-bold text-xl uppercase">Domingo 17 de Mayo 2026</p>
                 <p class="text-[#FF708D] font-bold text-lg">14:00 Horas</p>
             </div>
 
+            <!-- FOTO SALÓN: Carga inmediata -->
             <div class="w-full h-52 rounded-3xl my-6 bg-cover bg-center border-4 border-white shadow-md" style="background-image: url('img/salon.jpg');"></div>
             
-            <p class="font-stitch text-3xl text-[#0077B6] uppercase reveal">Salon Palapa Gracy</p>
+            <p class="font-stitch text-3xl text-[#0077B6] uppercase reveal-text">Salon Palapa Gracy</p>
             
-            <div class="bg-[#0077B6] text-white p-5 rounded-3xl shadow-lg mx-2 border-2 border-white/20 reveal">
+            <div class="bg-[#0077B6] text-white p-5 rounded-3xl shadow-lg mx-2 border-2 border-white/20 reveal-text">
                 <p class="text-[14px] font-bold tracking-[0.2em] uppercase mb-1">Ubicación del evento</p>
                 <p class="text-[13px] opacity-95 leading-relaxed font-medium">Niño de Atocha, Tuxtla Gutiérrez</p>
             </div>
             
-            <a href="https://maps.app.goo.gl/joFczFNW8xX7jmWR9" target="_blank" class="inline-block px-8 py-3 bg-[#0077B6] text-white font-bold rounded-full text-[10px] uppercase shadow-lg tracking-widest reveal">📍 Ver Ubicación</a>
+            <a href="https://maps.app.goo.gl/joFczFNW8xX7jmWR9" target="_blank" class="inline-block px-8 py-3 bg-[#0077B6] text-white font-bold rounded-full text-[10px] uppercase shadow-lg tracking-widest reveal-text">📍 Ver Ubicación</a>
         </div>
 
-        <div class="w-full text-center mb-16 bg-[#FDF0D5]/50 p-6 rounded-[2.5rem] border border-white relative z-20 reveal">
+        <div class="w-full text-center mb-16 bg-[#FDF0D5]/50 p-6 rounded-[2.5rem] border border-white relative z-20 reveal-text">
             <img src="img/alberca.jpg" loading="lazy" class="w-40 mx-auto mb-4 rounded-2xl shadow-md">
             <p class="text-[#0077B6] font-bold text-lg uppercase mb-2">¡Pool Party!</p>
             <p class="text-[#FF708D] font-stitch text-3xl uppercase leading-tight">No olvides traer tu<br>traje de baño</p>
         </div>
 
-        <!-- GALERÍA OPTIMIZADA (SIN REVEAL PARA CARGA INSTANTÁNEA) -->
+        <!-- GALERÍA: Imágenes fijas (Carga rápida garantizada) -->
         <div class="w-full mb-12 relative z-20">
             <div class="grid grid-cols-2 gap-4 pswp-gallery" id="my-gallery">
-                <a href="img/img1.jpg" data-pswp-width="1200" data-pswp-height="1600" class="rounded-2xl overflow-hidden border-2 border-white shadow-sm">
+                <a href="img/img1.jpg" data-pswp-width="1200" data-pswp-height="1600" class="rounded-2xl overflow-hidden border-2 border-white">
                     <img src="img/img1.jpg" loading="lazy" class="w-full h-full object-cover aspect-square">
                 </a>
-                <a href="img/img2.jpg" data-pswp-width="1200" data-pswp-height="1600" class="rounded-2xl overflow-hidden border-2 border-white shadow-sm">
+                <a href="img/img2.jpg" data-pswp-width="1200" data-pswp-height="1600" class="rounded-2xl overflow-hidden border-2 border-white">
                     <img src="img/img2.jpg" loading="lazy" class="w-full h-full object-cover aspect-square">
                 </a>
-                <a href="img/img3.jpg" data-pswp-width="1200" data-pswp-height="1600" class="rounded-2xl overflow-hidden border-2 border-white shadow-sm">
+                <a href="img/img3.jpg" data-pswp-width="1200" data-pswp-height="1600" class="rounded-2xl overflow-hidden border-2 border-white">
                     <img src="img/img3.jpg" loading="lazy" class="w-full h-full object-cover aspect-square">
                 </a>
-                <a href="img/img4.jpg" data-pswp-width="1200" data-pswp-height="1600" class="rounded-2xl overflow-hidden border-2 border-white shadow-sm">
+                <a href="img/img4.jpg" data-pswp-width="1200" data-pswp-height="1600" class="rounded-2xl overflow-hidden border-2 border-white">
                     <img src="img/img4.jpg" loading="lazy" class="w-full h-full object-cover aspect-square">
                 </a>
-                <a href="img/img5.jpg" data-pswp-width="1200" data-pswp-height="1600" class="rounded-2xl overflow-hidden border-2 border-white shadow-sm col-span-2 mx-auto w-1/2">
+                <a href="img/img5.jpg" data-pswp-width="1200" data-pswp-height="1600" class="rounded-2xl overflow-hidden border-2 border-white col-span-2 mx-auto w-1/2">
                     <img src="img/img5.jpg" loading="lazy" class="w-full h-full object-cover aspect-square">
                 </a>
             </div>
         </div>
 
-        <!-- Confirmación -->
-        <div class="w-full flex flex-col items-center space-y-4 mb-8 text-center relative z-20 reveal">
+        <!-- CONFIRMACIÓN: Con efecto reveal -->
+        <div class="w-full flex flex-col items-center space-y-4 mb-8 text-center relative z-20 reveal-text">
             <p class="text-[#0077B6] font-bold tracking-widest uppercase text-[12px]">Confirma tu asistencia</p>
             <a href="https://wa.me/529612577561?text=%C2%A1Aloha!%20Confirmo%20mi%20asistencia" target="_blank" class="flex items-center justify-center w-72 py-5 bg-[#25D366] text-white rounded-[2rem] shadow-xl active:scale-95 transition-all">
                 <span class="font-bold tracking-[0.2em] uppercase text-[11px]">aquí confirma tu asistencia</span>
@@ -180,12 +165,6 @@
             <p class="text-[18px] font-black italic bg-gradient-to-r from-[#FF708D] via-[#0077B6] to-[#00B4D8] bg-clip-text text-transparent mt-10 px-6 leading-tight uppercase">
                 Te espero para compartir este momento especial
             </p>
-
-            <div class="mt-12 pt-4">
-                <a href="https://wa.me/529612577561?text=Hola,%20me%20gustaria%20información%20sobre%20invitaciones" target="_blank" class="text-[10px] text-[#0077B6] font-bold border-b border-[#0077B6]/10 uppercase">
-                   Computec | 961 257 7561
-                </a>
-            </div>
         </div>
     </div>
 
@@ -198,18 +177,19 @@
     </script>
 
     <script>
-        const sealBtn = document.getElementById('sealBtn'), env = document.getElementById('envelopeContainer'), card = document.getElementById('invitationCard'), splash = document.getElementById('splashContainer'), flowerBox = document.getElementById('flowerContainer'), audio = document.getElementById('hawaianaAudio'), vinyl = document.getElementById('vinylDisc'), musicUI = document.getElementById('musicControl');
+        const sealBtn = document.getElementById('sealBtn'), env = document.getElementById('envelopeContainer'), card = document.getElementById('invitationCard'), flowerBox = document.getElementById('flowerContainer'), audio = document.getElementById('hawaianaAudio'), vinyl = document.getElementById('vinylDisc'), musicUI = document.getElementById('musicControl');
 
-        // REVEAL SOLO PARA TEXTOS (Más ágil)
-        function reveal() {
-            const reveals = document.querySelectorAll(".reveal");
+        // FUNCIÓN SOLO PARA TEXTOS
+        function revealText() {
+            const reveals = document.querySelectorAll(".reveal-text");
             reveals.forEach(el => {
                 const windowHeight = window.innerHeight;
                 const elementTop = el.getBoundingClientRect().top;
-                if (elementTop < windowHeight - 50) { el.classList.add("active"); }
+                // Aparece cuando el texto está a 40px de entrar en vista
+                if (elementTop < windowHeight - 40) { el.classList.add("active"); }
             });
         }
-        window.addEventListener("scroll", reveal);
+        window.addEventListener("scroll", revealText);
 
         function launchFlowers() {
             const icons = ['🌸', '🌺', '🌼'];
@@ -219,14 +199,12 @@
                 f.innerHTML = icons[Math.floor(Math.random()*icons.length)];
                 f.style.left = Math.random() * 100 + '%';
                 f.style.setProperty('--speed', (Math.random() * 6 + 18) + 's'); 
-                f.style.fontSize = (Math.random() * 12 + 16) + 'px';
                 flowerBox.appendChild(f);
                 setTimeout(() => f.remove(), 25000);
             }, 1200);
         }
 
         sealBtn.addEventListener('click', () => {
-            // DISPARADOR DE AUDIO PARA GITHUB/MÓVIL
             audio.play().catch(e => console.log("Audio play failed"));
             vinyl.classList.remove('paused');
 
@@ -238,7 +216,7 @@
                 musicUI.classList.remove('hidden');
                 document.body.classList.remove('no-scroll');
                 launchFlowers();
-                reveal();
+                revealText(); // Disparo inicial
             }, 500);
         });
 
